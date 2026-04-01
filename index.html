@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Name</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --paper: #f8f5ef;
+      --ink: #1c1a16;
+      --ink-soft: #4a4640;
+      --ink-muted: #8a8278;
+      --rule: #d6cfc4;
+      --accent: #6b3a2a;
+      --serif: 'EB Garamond', Georgia, serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: 18px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      padding: 5rem 0 3rem;
+      border-bottom: 1px solid var(--rule);
+      text-align: center;
+    }
+
+    .name {
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .position {
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--ink-muted);
+      margin-bottom: 2rem;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    nav a { color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
+    nav a:hover { color: var(--accent); }
+
+    /* ─── SECTIONS ─── */
+    section {
+      padding: 3.5rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .section-head {
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .section-head::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    /* ─── BIO ─── */
+    .bio p {
+      font-size: 1rem;
+      color: var(--ink-soft);
+      margin-bottom: 1rem;
+      max-width: 60ch;
+    }
+    .bio p:last-of-type { margin-bottom: 0; }
+
+    .bio-links {
+      display: flex;
+      gap: 0;
+      margin-top: 1.75rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .bio-links a {
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+    .bio-links a:hover { border-color: var(--accent); }
+    .bio-links .sep { color: var(--rule); padding: 0 1rem; user-select: none; }
+
+    /* ─── PAPERS ─── */
+    .paper {
+      padding: 1.75rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .paper:last-child { border-bottom: none; }
+
+    .paper-meta {
+      display: flex;
+      align-items: baseline;
+      gap: 0.8rem;
+      margin-bottom: 0.4rem;
+    }
+    .badge {
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      border: 1px solid var(--rule);
+      padding: 0.15rem 0.5rem;
+    }
+    .badge-wip { color: var(--accent); border-color: #c0856a; }
+    .paper-year { font-size: 0.82rem; color: var(--ink-muted); font-style: italic; }
+
+    .paper-title {
+      font-size: 1.05rem;
+      font-weight: 500;
+      line-height: 1.4;
+      margin-bottom: 0.25rem;
+    }
+    .paper-title a { color: var(--ink); text-decoration: none; }
+    .paper-title a:hover { color: var(--accent); }
+
+    .paper-authors {
+      font-size: 0.88rem;
+      font-style: italic;
+      color: var(--ink-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .venue {
+      font-size: 0.88rem;
+      font-style: italic;
+      color: var(--ink-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .abstract-toggle {
+      background: none; border: none; cursor: pointer;
+      font-family: var(--serif); font-size: 0.82rem;
+      font-style: italic; color: var(--ink-muted);
+      padding: 0; transition: color 0.2s;
+    }
+    .abstract-toggle:hover { color: var(--accent); }
+
+    .abstract-body {
+      display: none;
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      line-height: 1.7;
+      margin-top: 0.75rem;
+      padding-left: 1.2rem;
+      border-left: 1px solid var(--rule);
+      max-width: 58ch;
+    }
+    .abstract-body.open { display: block; }
+
+    .paper-links {
+      display: flex; gap: 1.5rem;
+      margin-top: 0.75rem;
+    }
+    .paper-link {
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+    .paper-link:hover { border-color: var(--accent); }
+
+    /* ─── CONTACT ─── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: max-content 1fr;
+      gap: 0.6rem 2.5rem;
+      font-size: 0.95rem;
+    }
+    .cl { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); padding-top: 0.2rem; }
+    .cv { color: var(--ink-soft); }
+    .cv a { color: var(--accent); text-decoration: none; }
+    .cv a:hover { text-decoration: underline; }
+
+    /* ─── FOOTER ─── */
+    .ornament { text-align: center; color: var(--rule); padding: 2rem 0 0; letter-spacing: 0.6rem; }
+
+    footer {
+      padding: 2.5rem 0;
+      text-align: center;
+      font-size: 0.78rem;
+      font-style: italic;
+      color: var(--ink-muted);
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 480px) {
+      body { font-size: 16px; }
+      header { padding: 3rem 0 2rem; }
+      nav { gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <h1 class="name">Your Name</h1>
+    <p class="position">PhD Candidate in Economics &ensp;·&ensp; Your University</p>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#research">Research</a>
+      <a href="#publications">Publications</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- ABOUT -->
+  <section id="about" class="bio">
+    <div class="section-head">About</div>
+    <p>
+      I am a PhD candidate in the Department of Economics at [University], advised by
+      [Advisor Name]. My research lies at the intersection of <em>labor economics</em>
+      and <em>public finance</em>, with particular interest in inequality, social
+      mobility, and the distributional consequences of fiscal policy.
+    </p>
+    <p>
+      I will be on the economics job market in 2025–2026. Prior to graduate school,
+      I received my B.A. from [Undergraduate University].
+    </p>
+    <div class="bio-links">
+      <a href="cv.pdf">Curriculum Vitae</a>
+      <span class="sep">·</span>
+      <a href="mailto:you@university.edu">Email</a>
+      <span class="sep">·</span>
+      <a href="https://scholar.google.com" target="_blank">Google Scholar</a>
+      <span class="sep">·</span>
+      <a href="https://twitter.com" target="_blank">Twitter / X</a>
+    </div>
+  </section>
+
+  <!-- WORKING PAPERS -->
+  <section id="research">
+    <div class="section-head">Working Papers</div>
+
+    <div class="paper">
+      <div class="paper-meta">
+        <span class="badge badge-wip">Working Paper</span>
+        <span class="paper-year">2024</span>
+      </div>
+      <div class="paper-title">
+        <a href="#">The Effect of Minimum Wage on Youth Employment: Evidence from Administrative Data</a>
+      </div>
+      <div class="paper-authors">with Co-author Name</div>
+      <button class="abstract-toggle" onclick="toggleAbstract(this)">Abstract ↓</button>
+      <div class="abstract-body">
+        We study the employment effects of minimum wage increases using linked employer–employee
+        administrative data covering 2000–2020. Exploiting variation in minimum wage levels
+        across states and over time, we find that a 10 percent increase in the minimum wage
+        reduces youth employment by 1.2–1.8 percentage points, with larger effects concentrated
+        among low-skill workers and in high-exposure industries.
+      </div>
+      <div class="paper-links">
+        <a class="paper-link" href="#">PDF</a>
+        <a class="paper-link" href="#">SSRN</a>
+        <a class="paper-link" href="#">Slides</a>
+      </div>
+    </div>
+
+    <div class="paper">
+      <div class="paper-meta">
+        <span class="badge badge-wip">Working Paper</span>
+        <span class="paper-year">2024</span>
+      </div>
+      <div class="paper-title">
+        <a href="#">Tax Incidence and Inequality: Revisiting the Evidence</a>
+      </div>
+      <div class="paper-authors">sole author</div>
+      <button class="abstract-toggle" onclick="toggleAbstract(this)">Abstract ↓</button>
+      <div class="abstract-body">
+        This paper re-examines the distributional effects of corporate taxation using
+        newly available matched firm-worker data. I develop a structural model allowing
+        for heterogeneous incidence across worker and firm types, finding that the burden
+        falls disproportionately on low-wage workers in capital-intensive industries.
+      </div>
+      <div class="paper-links">
+        <a class="paper-link" href="#">PDF</a>
+        <a class="paper-link" href="#">Slides</a>
+      </div>
+    </div>
+
+    <div class="paper">
+      <div class="paper-meta">
+        <span class="badge">In Progress</span>
+        <span class="paper-year">2025</span>
+      </div>
+      <div class="paper-title">Social Insurance and Household Consumption Smoothing</div>
+      <div class="paper-authors">with Co-author A, Co-author B</div>
+    </div>
+
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section id="publications">
+    <div class="section-head">Publications</div>
+
+    <div class="paper">
+      <div class="paper-meta">
+        <span class="badge">Published</span>
+        <span class="paper-year">2023</span>
+      </div>
+      <div class="paper-title">
+        <a href="#">Intergenerational Mobility and Local Labor Markets</a>
+      </div>
+      <div class="paper-authors">with Co-author Name</div>
+      <div class="venue"><em>Journal of Political Economy</em>, Vol. 131, No. 4, pp. 1023–1068</div>
+      <div class="paper-links">
+        <a class="paper-link" href="#">Published Version</a>
+        <a class="paper-link" href="#">Working Paper</a>
+        <a class="paper-link" href="#">Replication Files</a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-head">Contact</div>
+    <div class="contact-grid">
+      <span class="cl">Email</span>
+      <span class="cv"><a href="mailto:you@university.edu">you@university.edu</a></span>
+
+      <span class="cl">Office</span>
+      <span class="cv">Room 000, Economics Building<br>[University Name], City, State</span>
+
+      <span class="cl">Scholar</span>
+      <span class="cv"><a href="#" target="_blank">Google Scholar</a></span>
+
+      <span class="cl">Twitter</span>
+      <span class="cv"><a href="#" target="_blank">@yourhandle</a></span>
+    </div>
+  </section>
+
+  <div class="ornament">· · ·</div>
+  <footer>© 2025 Your Name &ensp;·&ensp; Last updated April 2025</footer>
+
+</div>
+<script>
+  function toggleAbstract(btn) {
+    const body = btn.nextElementSibling;
+    const open = body.classList.toggle('open');
+    btn.textContent = open ? 'Abstract ↑' : 'Abstract ↓';
+  }
+</script>
+</body>
+</html>
